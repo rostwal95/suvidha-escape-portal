@@ -2,8 +2,6 @@ import { useState } from "react";
 import { motion } from "framer-motion";
 import {
   Calendar,
-  Moon,
-  IndianRupee,
   Star,
   Heart,
   MapPin,
@@ -303,7 +301,7 @@ export function PackageDetailPage({
                     <CheckCircle className="h-5 w-5 text-green-600" />
                   </div>
                   <h3 className="text-lg font-semibold text-gray-900">
-                    What's Included
+                    What&apos;s Included
                   </h3>
                 </div>
                 <ul className="space-y-2">
@@ -330,7 +328,7 @@ export function PackageDetailPage({
                     <XCircle className="h-5 w-5 text-red-600" />
                   </div>
                   <h3 className="text-lg font-semibold text-gray-900">
-                    What's Not Included
+                    What&apos;s Not Included
                   </h3>
                 </div>
                 <ul className="space-y-2">
@@ -492,7 +490,7 @@ export function PackageDetailPage({
                 <button
                   onClick={() => onBook(packageData.id)}
                   disabled={!selectedDate}
-                  className="w-full bg-gradient-to-r from-primary-600 to-secondary-600 text-white py-4 rounded-xl font-semibold shadow-lg hover:shadow-xl transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+                  className="w-full bg-gradient-to-r from-blue-600 to-purple-600 text-white py-4 rounded-xl font-semibold shadow-lg hover:shadow-xl transition-all disabled:opacity-50 disabled:cursor-not-allowed hover:from-blue-700 hover:to-purple-700"
                 >
                   Book Now
                 </button>

@@ -132,7 +132,7 @@ export function FlightResultCard({ flight, onBook }: FlightResultCardProps) {
           <div className="flex gap-2">
             <button
               onClick={() => setIsExpanded(!isExpanded)}
-              className="rounded-lg border border-gray-300 px-4 py-2 text-sm font-semibold text-gray-700 transition-colors hover:bg-gray-50"
+              className="rounded-lg border border-gray-300 px-4 py-2 text-sm font-semibold text-gray-700 transition-colors hover:bg-gray-50 cursor-pointer"
             >
               {isExpanded ? (
                 <>
@@ -145,8 +145,12 @@ export function FlightResultCard({ flight, onBook }: FlightResultCardProps) {
               )}
             </button>
             <button
-              onClick={() => onBook(flight)}
-              className="rounded-lg bg-primary-600 px-6 py-2 text-sm font-semibold text-white transition-colors hover:bg-primary-700"
+              onClick={(e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                onBook(flight);
+              }}
+              className="rounded-lg bg-blue-600 px-6 py-2 text-sm font-semibold text-white transition-colors hover:bg-blue-700 cursor-pointer"
             >
               Book Now
             </button>
@@ -173,7 +177,7 @@ export function FlightResultCard({ flight, onBook }: FlightResultCardProps) {
                 <div className="space-y-4">
                   {flight.segments.map((segment, index) => (
                     <div key={index} className="flex items-start gap-4">
-                      <div className="flex h-8 w-8 items-center justify-center rounded-full bg-primary-100 text-sm font-semibold text-primary-700">
+                      <div className="flex h-8 w-8 items-center justify-center rounded-full bg-blue-100 text-sm font-semibold text-blue-700">
                         {index + 1}
                       </div>
                       <div className="flex-1 space-y-2">

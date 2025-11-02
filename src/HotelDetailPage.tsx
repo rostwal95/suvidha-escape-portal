@@ -1,5 +1,5 @@
-import { useState, useEffect, useRef } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { useState } from "react";
+import { motion } from "framer-motion";
 import {
   ChevronLeft,
   ChevronRight,
@@ -29,7 +29,6 @@ import {
   Info,
   Plus,
   Minus,
-  ChevronDown,
   Home,
 } from "lucide-react";
 import { Badge } from "./primitives/badge";
@@ -54,50 +53,40 @@ export function HotelDetailPage({
   onBook,
 }: HotelDetailPageProps) {
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
-  const [checkInDate, setCheckInDate] = useState("");
-  const [checkOutDate, setCheckOutDate] = useState("");
+  const today = new Date().toISOString().split("T")[0];
+  const tomorrow = new Date(Date.now() + 24 * 60 * 60 * 1000)
+    .toISOString()
+    .split("T")[0];
+  const [checkInDate, setCheckInDate] = useState(today);
+  const [checkOutDate, setCheckOutDate] = useState(tomorrow);
   const [guests, setGuests] = useState(2);
   const [rooms, setRooms] = useState(1);
   const [isFavorite, setIsFavorite] = useState(false);
   const [selectedRoom, setSelectedRoom] = useState<string | null>(null);
-  const [roomsDropdownOpen, setRoomsDropdownOpen] = useState(false);
-  const [guestsDropdownOpen, setGuestsDropdownOpen] = useState(false);
-
-  const roomsDropdownRef = useRef<HTMLDivElement>(null);
-  const guestsDropdownRef = useRef<HTMLDivElement>(null);
 
   const hotelImages = hotelData.images || [];
   const hotelPrice = hotelData.price || 0;
+
   const nights =
     checkInDate && checkOutDate
-      ? Math.ceil(
-          (new Date(checkOutDate).getTime() - new Date(checkInDate).getTime()) /
-            (1000 * 60 * 60 * 24)
+      ? Math.max(
+          1,
+          Math.ceil(
+            (new Date(checkOutDate).getTime() -
+              new Date(checkInDate).getTime()) /
+              (1000 * 60 * 60 * 24)
+          )
         )
       : 1;
-  const totalPrice = hotelPrice * nights * rooms;
+
+  const areDatesValid =
+    checkInDate &&
+    checkOutDate &&
+    new Date(checkOutDate) > new Date(checkInDate);
+
+  const totalPrice = areDatesValid ? hotelPrice * nights * rooms : 0;
   const taxesAndFees = Math.round(totalPrice * 0.12); // 12% taxes
   const grandTotal = totalPrice + taxesAndFees;
-
-  // Close dropdowns when clicking outside
-  useEffect(() => {
-    function handleClickOutside(event: MouseEvent) {
-      if (
-        roomsDropdownRef.current &&
-        !roomsDropdownRef.current.contains(event.target as Node)
-      ) {
-        setRoomsDropdownOpen(false);
-      }
-      if (
-        guestsDropdownRef.current &&
-        !guestsDropdownRef.current.contains(event.target as Node)
-      ) {
-        setGuestsDropdownOpen(false);
-      }
-    }
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => document.removeEventListener("mousedown", handleClickOutside);
-  }, []);
 
   const nextImage = () => {
     setCurrentImageIndex((prev) =>
@@ -111,7 +100,10 @@ export function HotelDetailPage({
     );
   };
 
-  const amenityIcons: Record<string, any> = {
+  const amenityIcons: Record<
+    string,
+    React.ComponentType<{ className?: string }>
+  > = {
     WiFi: Wifi,
     Pool: Waves,
     Spa: Droplets,
@@ -276,8 +268,8 @@ export function HotelDetailPage({
                     )}
                   </div>
                 </div>
-                <div className="flex items-center gap-2 bg-primary-50 px-4 py-2 rounded-full">
-                  <Star className="h-5 w-5 fill-primary-500 text-primary-500" />
+                <div className="flex items-center gap-2 bg-blue-50 px-4 py-2 rounded-full">
+                  <Star className="h-5 w-5 fill-blue-500 text-blue-500" />
                   <span className="font-bold text-gray-900">
                     {hotelData.rating}
                   </span>
@@ -328,8 +320,8 @@ export function HotelDetailPage({
                         key={amenityStr}
                         className="flex items-center gap-3 p-3 rounded-lg bg-gray-50"
                       >
-                        <div className="p-2 rounded-lg bg-primary-50">
-                          <Icon className="h-5 w-5 text-primary-600" />
+                        <div className="p-2 rounded-lg bg-blue-50">
+                          <Icon className="h-5 w-5 text-blue-600" />
                         </div>
                         <span className="text-sm font-medium text-gray-700">
                           {amenityStr}
@@ -354,8 +346,8 @@ export function HotelDetailPage({
                     animate={{ opacity: 1, y: 0 }}
                     className={`border-2 rounded-xl p-5 transition-all cursor-pointer ${
                       selectedRoom === room.id
-                        ? "border-primary-500 bg-primary-50"
-                        : "border-gray-200 hover:border-primary-300"
+                        ? "border-blue-500 bg-blue-50"
+                        : "border-gray-200 hover:border-blue-300"
                     }`}
                     onClick={() => setSelectedRoom(room.id)}
                   >
@@ -385,7 +377,7 @@ export function HotelDetailPage({
                             </Badge>
                           ))}
                           {room.amenities.length > 5 && (
-                            <Badge variant="outline">
+                            <Badge variant="default">
                               +{room.amenities.length - 5} more
                             </Badge>
                           )}
@@ -407,7 +399,7 @@ export function HotelDetailPage({
                     </div>
                     {selectedRoom === room.id && (
                       <div className="pt-4 border-t border-gray-200">
-                        <div className="flex items-center gap-2 text-sm text-primary-600 font-medium">
+                        <div className="flex items-center gap-2 text-sm text-blue-600 font-medium">
                           <Check className="h-5 w-5" />
                           <span>Selected for booking</span>
                         </div>
@@ -445,10 +437,10 @@ export function HotelDetailPage({
               <div className="flex flex-col sm:flex-row gap-4">
                 <a
                   href="tel:+918002025000"
-                  className="flex items-center gap-3 p-4 rounded-xl border border-gray-200 hover:border-primary-500 transition-colors"
+                  className="flex items-center gap-3 p-4 rounded-xl border border-gray-200 hover:border-blue-500 transition-colors"
                 >
-                  <div className="p-2 rounded-lg bg-primary-50">
-                    <Phone className="h-5 w-5 text-primary-600" />
+                  <div className="p-2 rounded-lg bg-blue-50">
+                    <Phone className="h-5 w-5 text-blue-600" />
                   </div>
                   <div>
                     <p className="text-sm text-gray-600">Call us</p>
@@ -459,10 +451,10 @@ export function HotelDetailPage({
                 </a>
                 <a
                   href="mailto:hotels@suvidhaescapes.com"
-                  className="flex items-center gap-3 p-4 rounded-xl border border-gray-200 hover:border-primary-500 transition-colors"
+                  className="flex items-center gap-3 p-4 rounded-xl border border-gray-200 hover:border-blue-500 transition-colors"
                 >
-                  <div className="p-2 rounded-lg bg-primary-50">
-                    <Mail className="h-5 w-5 text-primary-600" />
+                  <div className="p-2 rounded-lg bg-blue-50">
+                    <Mail className="h-5 w-5 text-blue-600" />
                   </div>
                   <div>
                     <p className="text-sm text-gray-600">Email us</p>
@@ -513,9 +505,21 @@ export function HotelDetailPage({
                     <input
                       type="date"
                       value={checkInDate}
-                      onChange={(e) => setCheckInDate(e.target.value)}
+                      onChange={(e) => {
+                        const newCheckIn = e.target.value;
+                        setCheckInDate(newCheckIn);
+                        // Ensure checkout is at least 1 day after check-in
+                        if (
+                          checkOutDate &&
+                          new Date(checkOutDate) <= new Date(newCheckIn)
+                        ) {
+                          const nextDay = new Date(newCheckIn);
+                          nextDay.setDate(nextDay.getDate() + 1);
+                          setCheckOutDate(nextDay.toISOString().split("T")[0]);
+                        }
+                      }}
                       min={new Date().toISOString().split("T")[0]}
-                      className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500"
+                      className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
                     />
                   </div>
                 </div>
@@ -532,149 +536,88 @@ export function HotelDetailPage({
                       value={checkOutDate}
                       onChange={(e) => setCheckOutDate(e.target.value)}
                       min={
-                        checkInDate || new Date().toISOString().split("T")[0]
+                        checkInDate
+                          ? new Date(
+                              new Date(checkInDate).getTime() +
+                                24 * 60 * 60 * 1000
+                            )
+                              .toISOString()
+                              .split("T")[0]
+                          : new Date(Date.now() + 24 * 60 * 60 * 1000)
+                              .toISOString()
+                              .split("T")[0]
                       }
-                      className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500"
+                      className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
                     />
                   </div>
                 </div>
 
                 {/* Rooms & Guests */}
                 <div className="grid grid-cols-2 gap-4">
-                  {/* Rooms Dropdown */}
-                  <div ref={roomsDropdownRef} className="relative">
+                  {/* Rooms Stepper */}
+                  <div>
                     <label className="block text-sm font-medium text-gray-700 mb-2">
                       Rooms
                     </label>
-                    <button
-                      type="button"
-                      onClick={() => setRoomsDropdownOpen(!roomsDropdownOpen)}
-                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500 bg-white flex items-center justify-between hover:border-primary-400 transition-colors"
-                    >
-                      <span className="flex items-center gap-2">
-                        <Home className="h-5 w-5 text-orange-500" />
-                        <span className="text-gray-900">
+                    <div className="w-full px-3 py-2.5 border border-gray-300 rounded-lg bg-white flex items-center justify-between">
+                      <span className="flex items-center gap-2 text-gray-900">
+                        <Home className="h-4 w-4 text-orange-500 flex-shrink-0" />
+                        <span className="text-sm font-medium">
                           {rooms} {rooms === 1 ? "Room" : "Rooms"}
                         </span>
                       </span>
-                      <ChevronDown
-                        className={`h-5 w-5 text-gray-400 transition-transform ${
-                          roomsDropdownOpen ? "rotate-180" : ""
-                        }`}
-                      />
-                    </button>
-
-                    <AnimatePresence>
-                      {roomsDropdownOpen && (
-                        <motion.div
-                          initial={{ opacity: 0, y: -10 }}
-                          animate={{ opacity: 1, y: 0 }}
-                          exit={{ opacity: 0, y: -10 }}
-                          transition={{ duration: 0.2 }}
-                          className="absolute top-full mt-2 w-full bg-white rounded-xl shadow-2xl border border-gray-200 p-4 z-50"
+                      <div className="flex items-center gap-1.5">
+                        <button
+                          type="button"
+                          onClick={() => setRooms(Math.max(1, rooms - 1))}
+                          disabled={rooms <= 1}
+                          className="w-7 h-7 rounded-md border border-orange-500 text-orange-500 flex items-center justify-center hover:bg-orange-50 disabled:opacity-30 disabled:cursor-not-allowed transition-all flex-shrink-0"
                         >
-                          <div className="flex items-center justify-between">
-                            <div className="flex items-center gap-2">
-                              <Home className="h-5 w-5 text-orange-500" />
-                              <span className="font-medium text-gray-900">
-                                Rooms
-                              </span>
-                            </div>
-                            <div className="flex items-center gap-3">
-                              <button
-                                type="button"
-                                onClick={() => setRooms(Math.max(1, rooms - 1))}
-                                disabled={rooms <= 1}
-                                className="w-8 h-8 rounded-full border-2 border-orange-500 text-orange-500 flex items-center justify-center hover:bg-orange-50 disabled:opacity-30 disabled:cursor-not-allowed transition-all"
-                              >
-                                <Minus className="h-4 w-4" />
-                              </button>
-                              <span className="w-8 text-center font-semibold text-gray-900">
-                                {rooms}
-                              </span>
-                              <button
-                                type="button"
-                                onClick={() => setRooms(Math.min(5, rooms + 1))}
-                                disabled={rooms >= 5}
-                                className="w-8 h-8 rounded-full border-2 border-orange-500 text-orange-500 flex items-center justify-center hover:bg-orange-50 disabled:opacity-30 disabled:cursor-not-allowed transition-all"
-                              >
-                                <Plus className="h-4 w-4" />
-                              </button>
-                            </div>
-                          </div>
-                        </motion.div>
-                      )}
-                    </AnimatePresence>
+                          <Minus className="h-3.5 w-3.5" />
+                        </button>
+                        <button
+                          type="button"
+                          onClick={() => setRooms(Math.min(5, rooms + 1))}
+                          disabled={rooms >= 5}
+                          className="w-7 h-7 rounded-md border border-orange-500 text-orange-500 flex items-center justify-center hover:bg-orange-50 disabled:opacity-30 disabled:cursor-not-allowed transition-all flex-shrink-0"
+                        >
+                          <Plus className="h-3.5 w-3.5" />
+                        </button>
+                      </div>
+                    </div>
                   </div>
 
-                  {/* Guests Dropdown */}
-                  <div ref={guestsDropdownRef} className="relative">
+                  {/* Guests Stepper */}
+                  <div>
                     <label className="block text-sm font-medium text-gray-700 mb-2">
                       Guests
                     </label>
-                    <button
-                      type="button"
-                      onClick={() => setGuestsDropdownOpen(!guestsDropdownOpen)}
-                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500 bg-white flex items-center justify-between hover:border-primary-400 transition-colors"
-                    >
-                      <span className="flex items-center gap-2">
-                        <Users className="h-5 w-5 text-blue-500" />
-                        <span className="text-gray-900">
+                    <div className="w-full px-3 py-2.5 border border-gray-300 rounded-lg bg-white flex items-center justify-between">
+                      <span className="flex items-center gap-2 text-gray-900">
+                        <Users className="h-4 w-4 text-blue-500 flex-shrink-0" />
+                        <span className="text-sm font-medium">
                           {guests} {guests === 1 ? "Guest" : "Guests"}
                         </span>
                       </span>
-                      <ChevronDown
-                        className={`h-5 w-5 text-gray-400 transition-transform ${
-                          guestsDropdownOpen ? "rotate-180" : ""
-                        }`}
-                      />
-                    </button>
-
-                    <AnimatePresence>
-                      {guestsDropdownOpen && (
-                        <motion.div
-                          initial={{ opacity: 0, y: -10 }}
-                          animate={{ opacity: 1, y: 0 }}
-                          exit={{ opacity: 0, y: -10 }}
-                          transition={{ duration: 0.2 }}
-                          className="absolute top-full mt-2 w-full bg-white rounded-xl shadow-2xl border border-gray-200 p-4 z-50"
+                      <div className="flex items-center gap-1.5">
+                        <button
+                          type="button"
+                          onClick={() => setGuests(Math.max(1, guests - 1))}
+                          disabled={guests <= 1}
+                          className="w-7 h-7 rounded-md border border-blue-500 text-blue-500 flex items-center justify-center hover:bg-blue-50 disabled:opacity-30 disabled:cursor-not-allowed transition-all flex-shrink-0"
                         >
-                          <div className="flex items-center justify-between">
-                            <div className="flex items-center gap-2">
-                              <Users className="h-5 w-5 text-blue-500" />
-                              <span className="font-medium text-gray-900">
-                                Guests
-                              </span>
-                            </div>
-                            <div className="flex items-center gap-3">
-                              <button
-                                type="button"
-                                onClick={() =>
-                                  setGuests(Math.max(1, guests - 1))
-                                }
-                                disabled={guests <= 1}
-                                className="w-8 h-8 rounded-full border-2 border-blue-500 text-blue-500 flex items-center justify-center hover:bg-blue-50 disabled:opacity-30 disabled:cursor-not-allowed transition-all"
-                              >
-                                <Minus className="h-4 w-4" />
-                              </button>
-                              <span className="w-8 text-center font-semibold text-gray-900">
-                                {guests}
-                              </span>
-                              <button
-                                type="button"
-                                onClick={() =>
-                                  setGuests(Math.min(6, guests + 1))
-                                }
-                                disabled={guests >= 6}
-                                className="w-8 h-8 rounded-full border-2 border-blue-500 text-blue-500 flex items-center justify-center hover:bg-blue-50 disabled:opacity-30 disabled:cursor-not-allowed transition-all"
-                              >
-                                <Plus className="h-4 w-4" />
-                              </button>
-                            </div>
-                          </div>
-                        </motion.div>
-                      )}
-                    </AnimatePresence>
+                          <Minus className="h-3.5 w-3.5" />
+                        </button>
+                        <button
+                          type="button"
+                          onClick={() => setGuests(Math.min(6, guests + 1))}
+                          disabled={guests >= 6}
+                          className="w-7 h-7 rounded-md border border-blue-500 text-blue-500 flex items-center justify-center hover:bg-blue-50 disabled:opacity-30 disabled:cursor-not-allowed transition-all flex-shrink-0"
+                        >
+                          <Plus className="h-3.5 w-3.5" />
+                        </button>
+                      </div>
+                    </div>
                   </div>
                 </div>
 
@@ -702,18 +645,20 @@ export function HotelDetailPage({
 
                 {/* Book Now Button */}
                 <button
-                  onClick={() =>
-                    onBook(
-                      hotelData.id,
-                      selectedRoom || undefined,
-                      checkInDate,
-                      checkOutDate,
-                      rooms,
-                      guests
-                    )
-                  }
-                  disabled={!checkInDate || !checkOutDate}
-                  className="w-full bg-gradient-to-r from-primary-600 to-secondary-600 text-white py-4 rounded-xl font-semibold shadow-lg hover:shadow-xl transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+                  onClick={() => {
+                    if (areDatesValid) {
+                      onBook(
+                        hotelData.id,
+                        selectedRoom || undefined,
+                        checkInDate,
+                        checkOutDate,
+                        rooms,
+                        guests
+                      );
+                    }
+                  }}
+                  disabled={!areDatesValid}
+                  className="w-full bg-gradient-to-r from-blue-600 to-purple-600 text-white py-4 rounded-xl font-semibold shadow-lg hover:shadow-xl transition-all disabled:opacity-50 disabled:cursor-not-allowed hover:from-blue-700 hover:to-purple-700"
                 >
                   Book Now
                 </button>

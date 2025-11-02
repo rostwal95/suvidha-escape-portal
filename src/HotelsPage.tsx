@@ -15,7 +15,6 @@ import {
   Wind,
   Waves,
   Heart,
-  ArrowRight,
   Calendar,
 } from "lucide-react";
 import { Input } from "./primitives/input";
@@ -23,7 +22,6 @@ import { Button } from "./primitives/button";
 import { Badge } from "./primitives/badge";
 import { Carousel } from "./primitives/carousel";
 import { HotelDetailPage } from "./HotelDetailPage";
-import { HotelBookingFlow } from "./HotelBookingFlow";
 import type { Hotel } from "./types";
 
 // Mock hotel data with real Unsplash images
@@ -182,7 +180,10 @@ const MOCK_HOTELS: Hotel[] = [
   },
 ];
 
-const amenityIcons: Record<string, any> = {
+const amenityIcons: Record<
+  string,
+  React.ComponentType<{ className?: string }>
+> = {
   WiFi: Wifi,
   Pool: Waves,
   Spa: Wind,
@@ -206,7 +207,7 @@ interface HotelsPageProps {
 
 export function HotelsPage({ onHotelSelect }: HotelsPageProps) {
   const [viewMode, setViewMode] = useState<"list" | "grid">("list");
-  const [hotels, setHotels] = useState(MOCK_HOTELS);
+  const [hotels] = useState(MOCK_HOTELS);
   const [selectedHotel, setSelectedHotel] = useState<Hotel | null>(null);
   const [searchQuery, setSearchQuery] = useState("");
   const [showFilters, setShowFilters] = useState(false);
@@ -224,11 +225,11 @@ export function HotelsPage({ onHotelSelect }: HotelsPageProps) {
         onBack={() => setSelectedHotel(null)}
         onBook={(
           hotelId: string,
-          roomId: string,
-          checkInDate: string,
-          checkOutDate: string,
-          rooms: number,
-          guests: number
+          roomId?: string,
+          checkInDate?: string,
+          checkOutDate?: string,
+          rooms?: number,
+          guests?: number
         ) => {
           // Trigger unified booking flow
           onHotelSelect?.(selectedHotel, {
@@ -335,7 +336,9 @@ export function HotelsPage({ onHotelSelect }: HotelsPageProps) {
             {/* Sort */}
             <select
               value={sortBy}
-              onChange={(e) => setSortBy(e.target.value as any)}
+              onChange={(e) =>
+                setSortBy(e.target.value as "price" | "rating" | "distance")
+              }
               className="px-4 py-2 border border-gray-300 rounded-lg text-sm font-medium focus:outline-none focus:ring-2 focus:ring-blue-500"
             >
               <option value="rating">Sort by Rating</option>
@@ -620,7 +623,7 @@ function HotelCard({ hotel, viewMode, index, onSelect }: HotelCardProps) {
         </div>
 
         {/* Price & CTA */}
-        <div className="flex items-end justify-between pt-4 border-t border-gray-200">
+        <div className="flex flex-col sm:flex-row items-start sm:items-end justify-between gap-3 pt-4 border-t border-gray-200">
           <div>
             {hotel.originalPrice && (
               <span className="text-sm text-gray-500 line-through block">
@@ -640,10 +643,29 @@ function HotelCard({ hotel, viewMode, index, onSelect }: HotelCardProps) {
             )}
           </div>
 
-          <Button className="gap-2">
-            View Details
-            <ArrowRight className="h-4 w-4" />
-          </Button>
+          <div className="flex gap-2 w-full sm:w-auto">
+            <Button
+              variant="outline"
+              size="sm"
+              className="gap-2 flex-1 sm:flex-initial"
+              onClick={(e) => {
+                e.stopPropagation();
+                onSelect?.();
+              }}
+            >
+              View Details
+            </Button>
+            <Button
+              size="sm"
+              className="gap-2 flex-1 sm:flex-initial"
+              onClick={(e) => {
+                e.stopPropagation();
+                onSelect?.();
+              }}
+            >
+              Book Now
+            </Button>
+          </div>
         </div>
       </div>
     </motion.div>

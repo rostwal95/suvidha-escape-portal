@@ -19,7 +19,7 @@ import {
   Baby,
   User,
 } from "lucide-react";
-import { motion, useAnimation, useInView } from "framer-motion";
+import { motion } from "framer-motion";
 import { format } from "date-fns";
 import { AIRPORTS } from "./data";
 import { Badge } from "./primitives/badge";
@@ -132,7 +132,7 @@ export function HomePage({ onSearchFlights, onNavigate }: HomePageProps = {}) {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.2 }}
-              className="text-lg text-primary-100 sm:text-xl"
+              className="text-lg text-blue-100 sm:text-xl"
             >
               Book flights, hotels, and holiday packages at the best prices
             </motion.p>
@@ -164,7 +164,7 @@ export function HomePage({ onSearchFlights, onNavigate }: HomePageProps = {}) {
                     onClick={() => setActiveTab(tab.id)}
                     className={`relative flex items-center gap-2 px-6 py-4 text-sm font-semibold transition-all rounded-t-lg ${
                       activeTab === tab.id
-                        ? "text-primary-600 bg-primary-50"
+                        ? "text-blue-600 bg-blue-50"
                         : "text-gray-600 hover:text-gray-900 hover:bg-gray-50"
                     }`}
                   >
@@ -173,7 +173,7 @@ export function HomePage({ onSearchFlights, onNavigate }: HomePageProps = {}) {
                     {activeTab === tab.id && (
                       <motion.div
                         layoutId="activeTab"
-                        className="absolute bottom-0 left-0 right-0 h-1 bg-gradient-to-r from-primary-500 to-secondary-500 rounded-t"
+                        className="absolute bottom-0 left-0 right-0 h-1 bg-gradient-to-r from-blue-500 to-purple-500 rounded-t"
                         transition={{
                           type: "spring",
                           stiffness: 500,
@@ -198,7 +198,7 @@ export function HomePage({ onSearchFlights, onNavigate }: HomePageProps = {}) {
                       value="oneway"
                       checked={tripType === "oneway"}
                       onChange={(e) => setTripType(e.target.value as TripType)}
-                      className="h-4 w-4 border-gray-300 text-primary-600 focus:ring-primary-500"
+                      className="h-4 w-4 border-gray-300 text-blue-600 focus:ring-blue-500"
                     />
                     <span className="text-sm font-medium text-gray-700">
                       One-way
@@ -211,7 +211,7 @@ export function HomePage({ onSearchFlights, onNavigate }: HomePageProps = {}) {
                       value="roundtrip"
                       checked={tripType === "roundtrip"}
                       onChange={(e) => setTripType(e.target.value as TripType)}
-                      className="h-4 w-4 border-gray-300 text-primary-600 focus:ring-primary-500"
+                      className="h-4 w-4 border-gray-300 text-blue-600 focus:ring-blue-500"
                     />
                     <span className="text-sm font-medium text-gray-700">
                       Round-trip
@@ -228,7 +228,7 @@ export function HomePage({ onSearchFlights, onNavigate }: HomePageProps = {}) {
                     </label>
                     <div className="relative">
                       <MapPin className="absolute left-3 top-1/2 h-5 w-5 -translate-y-1/2 text-gray-400" />
-                      <select className="w-full appearance-none rounded-lg border border-gray-300 bg-white py-3 pl-10 pr-10 text-sm font-medium text-gray-900 focus:border-primary-500 focus:outline-none focus:ring-2 focus:ring-primary-500/20">
+                      <select className="w-full appearance-none rounded-lg border border-gray-300 bg-white py-3 pl-10 pr-10 text-sm font-medium text-gray-900 focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500/20">
                         {AIRPORTS.map((airport) => (
                           <option key={airport.code} value={airport.code}>
                             {airport.city} ({airport.code})
@@ -246,7 +246,7 @@ export function HomePage({ onSearchFlights, onNavigate }: HomePageProps = {}) {
                     </label>
                     <div className="relative">
                       <MapPin className="absolute left-3 top-1/2 h-5 w-5 -translate-y-1/2 text-gray-400" />
-                      <select className="w-full appearance-none rounded-lg border border-gray-300 bg-white py-3 pl-10 pr-10 text-sm font-medium text-gray-900 focus:border-primary-500 focus:outline-none focus:ring-2 focus:ring-primary-500/20">
+                      <select className="w-full appearance-none rounded-lg border border-gray-300 bg-white py-3 pl-10 pr-10 text-sm font-medium text-gray-900 focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500/20">
                         {AIRPORTS.map((airport) => (
                           <option key={airport.code} value={airport.code}>
                             {airport.city} ({airport.code})
@@ -267,7 +267,7 @@ export function HomePage({ onSearchFlights, onNavigate }: HomePageProps = {}) {
                       <input
                         type="date"
                         defaultValue={format(new Date(), "yyyy-MM-dd")}
-                        className="w-full appearance-none rounded-lg border border-gray-300 bg-white py-3 pl-10 pr-4 text-sm font-medium text-gray-900 focus:border-primary-500 focus:outline-none focus:ring-2 focus:ring-primary-500/20"
+                        className="w-full appearance-none rounded-lg border border-gray-300 bg-white py-3 pl-10 pr-4 text-sm font-medium text-gray-900 focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500/20"
                       />
                     </div>
                   </div>
@@ -285,7 +285,7 @@ export function HomePage({ onSearchFlights, onNavigate }: HomePageProps = {}) {
                             new Date(Date.now() + 7 * 24 * 60 * 60 * 1000),
                             "yyyy-MM-dd"
                           )}
-                          className="w-full appearance-none rounded-lg border border-gray-300 bg-white py-3 pl-10 pr-4 text-sm font-medium text-gray-900 focus:border-primary-500 focus:outline-none focus:ring-2 focus:ring-primary-500/20"
+                          className="w-full appearance-none rounded-lg border border-gray-300 bg-white py-3 pl-10 pr-4 text-sm font-medium text-gray-900 focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500/20"
                         />
                       </div>
                     </div>
@@ -304,7 +304,7 @@ export function HomePage({ onSearchFlights, onNavigate }: HomePageProps = {}) {
                       onClick={() =>
                         setPassengersDropdownOpen(!passengersDropdownOpen)
                       }
-                      className="w-full flex items-center justify-between rounded-lg border border-gray-300 bg-white py-3 px-4 text-sm font-medium text-gray-900 hover:border-primary-500 focus:border-primary-500 focus:outline-none focus:ring-2 focus:ring-primary-500/20 transition-colors"
+                      className="w-full flex items-center justify-between rounded-lg border border-gray-300 bg-white py-3 px-4 text-sm font-medium text-gray-900 hover:border-blue-500 focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500/20 transition-colors"
                     >
                       <div className="flex items-center gap-2">
                         <Users className="h-5 w-5 text-gray-400" />
@@ -359,7 +359,7 @@ export function HomePage({ onSearchFlights, onNavigate }: HomePageProps = {}) {
                                 disabled={!canRemoveAdult}
                                 className={`flex h-9 w-9 items-center justify-center rounded-full border-2 transition-all ${
                                   canRemoveAdult
-                                    ? "border-primary-600 text-primary-600 hover:bg-primary-50 active:scale-95"
+                                    ? "border-blue-600 text-blue-600 hover:bg-blue-50 active:scale-95"
                                     : "border-gray-200 text-gray-300 cursor-not-allowed"
                                 }`}
                               >
@@ -376,7 +376,7 @@ export function HomePage({ onSearchFlights, onNavigate }: HomePageProps = {}) {
                                 disabled={!canAddPassenger}
                                 className={`flex h-9 w-9 items-center justify-center rounded-full border-2 transition-all ${
                                   canAddPassenger
-                                    ? "border-primary-600 text-primary-600 hover:bg-primary-50 active:scale-95"
+                                    ? "border-blue-600 text-blue-600 hover:bg-blue-50 active:scale-95"
                                     : "border-gray-200 text-gray-300 cursor-not-allowed"
                                 }`}
                               >
@@ -409,7 +409,7 @@ export function HomePage({ onSearchFlights, onNavigate }: HomePageProps = {}) {
                                 disabled={!canRemoveChild}
                                 className={`flex h-9 w-9 items-center justify-center rounded-full border-2 transition-all ${
                                   canRemoveChild
-                                    ? "border-primary-600 text-primary-600 hover:bg-primary-50 active:scale-95"
+                                    ? "border-blue-600 text-blue-600 hover:bg-blue-50 active:scale-95"
                                     : "border-gray-200 text-gray-300 cursor-not-allowed"
                                 }`}
                               >
@@ -426,7 +426,7 @@ export function HomePage({ onSearchFlights, onNavigate }: HomePageProps = {}) {
                                 disabled={!canAddPassenger}
                                 className={`flex h-9 w-9 items-center justify-center rounded-full border-2 transition-all ${
                                   canAddPassenger
-                                    ? "border-primary-600 text-primary-600 hover:bg-primary-50 active:scale-95"
+                                    ? "border-blue-600 text-blue-600 hover:bg-blue-50 active:scale-95"
                                     : "border-gray-200 text-gray-300 cursor-not-allowed"
                                 }`}
                               >
@@ -457,7 +457,7 @@ export function HomePage({ onSearchFlights, onNavigate }: HomePageProps = {}) {
                         onChange={(e) =>
                           setCabinClass(e.target.value as CabinClass)
                         }
-                        className="w-full appearance-none rounded-lg border border-gray-300 bg-white py-3 pl-4 pr-10 text-sm font-medium text-gray-900 focus:border-primary-500 focus:outline-none focus:ring-2 focus:ring-primary-500/20"
+                        className="w-full appearance-none rounded-lg border border-gray-300 bg-white py-3 pl-4 pr-10 text-sm font-medium text-gray-900 focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500/20"
                       >
                         <option value="economy">Economy</option>
                         <option value="premium-economy">Premium Economy</option>
@@ -472,7 +472,7 @@ export function HomePage({ onSearchFlights, onNavigate }: HomePageProps = {}) {
                 {/* Search Button */}
                 <button
                   onClick={handleSearch}
-                  className="w-full rounded-xl bg-gradient-to-r from-primary-600 to-secondary-600 py-4 text-lg font-semibold text-white shadow-lg transition-all hover:shadow-xl hover:scale-[1.02] active:scale-[0.98] flex items-center justify-center gap-2"
+                  className="w-full rounded-xl bg-gradient-to-r from-blue-600 to-purple-600 py-4 text-lg font-semibold text-white shadow-lg transition-all hover:shadow-xl hover:scale-[1.02] active:scale-[0.98] flex items-center justify-center gap-2"
                 >
                   <Plane className="h-5 w-5" />
                   Search Flights
@@ -497,7 +497,7 @@ export function HomePage({ onSearchFlights, onNavigate }: HomePageProps = {}) {
                         value={hotelDestination}
                         onChange={(e) => setHotelDestination(e.target.value)}
                         placeholder="City, hotel name, or landmark"
-                        className="w-full rounded-lg border border-gray-300 bg-white py-3 pl-10 pr-4 text-sm font-medium text-gray-900 focus:border-primary-500 focus:outline-none focus:ring-2 focus:ring-primary-500/20"
+                        className="w-full rounded-lg border border-gray-300 bg-white py-3 pl-10 pr-4 text-sm font-medium text-gray-900 focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500/20"
                       />
                     </div>
                   </div>
@@ -512,9 +512,21 @@ export function HomePage({ onSearchFlights, onNavigate }: HomePageProps = {}) {
                       <input
                         type="date"
                         value={hotelCheckIn}
-                        onChange={(e) => setHotelCheckIn(e.target.value)}
+                        onChange={(e) => {
+                          const newCheckIn = e.target.value;
+                          setHotelCheckIn(newCheckIn);
+                          // Ensure checkout is at least 1 day after check-in
+                          if (
+                            hotelCheckOut &&
+                            new Date(hotelCheckOut) <= new Date(newCheckIn)
+                          ) {
+                            const nextDay = new Date(newCheckIn);
+                            nextDay.setDate(nextDay.getDate() + 1);
+                            setHotelCheckOut(format(nextDay, "yyyy-MM-dd"));
+                          }
+                        }}
                         min={format(new Date(), "yyyy-MM-dd")}
-                        className="w-full rounded-lg border border-gray-300 bg-white py-3 pl-10 pr-4 text-sm font-medium text-gray-900 focus:border-primary-500 focus:outline-none focus:ring-2 focus:ring-primary-500/20"
+                        className="w-full rounded-lg border border-gray-300 bg-white py-3 pl-10 pr-4 text-sm font-medium text-gray-900 focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500/20"
                       />
                     </div>
                   </div>
@@ -530,8 +542,21 @@ export function HomePage({ onSearchFlights, onNavigate }: HomePageProps = {}) {
                         type="date"
                         value={hotelCheckOut}
                         onChange={(e) => setHotelCheckOut(e.target.value)}
-                        min={hotelCheckIn}
-                        className="w-full rounded-lg border border-gray-300 bg-white py-3 pl-10 pr-4 text-sm font-medium text-gray-900 focus:border-primary-500 focus:outline-none focus:ring-2 focus:ring-primary-500/20"
+                        min={
+                          hotelCheckIn
+                            ? format(
+                                new Date(
+                                  new Date(hotelCheckIn).getTime() +
+                                    24 * 60 * 60 * 1000
+                                ),
+                                "yyyy-MM-dd"
+                              )
+                            : format(
+                                new Date(Date.now() + 24 * 60 * 60 * 1000),
+                                "yyyy-MM-dd"
+                              )
+                        }
+                        className="w-full rounded-lg border border-gray-300 bg-white py-3 pl-10 pr-4 text-sm font-medium text-gray-900 focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500/20"
                       />
                     </div>
                   </div>
@@ -549,7 +574,7 @@ export function HomePage({ onSearchFlights, onNavigate }: HomePageProps = {}) {
                       <select
                         value={hotelRooms}
                         onChange={(e) => setHotelRooms(Number(e.target.value))}
-                        className="w-full appearance-none rounded-lg border border-gray-300 bg-white py-3 pl-10 pr-10 text-sm font-medium text-gray-900 focus:border-primary-500 focus:outline-none focus:ring-2 focus:ring-primary-500/20"
+                        className="w-full appearance-none rounded-lg border border-gray-300 bg-white py-3 pl-10 pr-10 text-sm font-medium text-gray-900 focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500/20"
                       >
                         {[1, 2, 3, 4, 5].map((num) => (
                           <option key={num} value={num}>
@@ -571,7 +596,7 @@ export function HomePage({ onSearchFlights, onNavigate }: HomePageProps = {}) {
                       <select
                         value={hotelGuests}
                         onChange={(e) => setHotelGuests(Number(e.target.value))}
-                        className="w-full appearance-none rounded-lg border border-gray-300 bg-white py-3 pl-10 pr-10 text-sm font-medium text-gray-900 focus:border-primary-500 focus:outline-none focus:ring-2 focus:ring-primary-500/20"
+                        className="w-full appearance-none rounded-lg border border-gray-300 bg-white py-3 pl-10 pr-10 text-sm font-medium text-gray-900 focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500/20"
                       >
                         {[1, 2, 3, 4, 5, 6].map((num) => (
                           <option key={num} value={num}>
@@ -588,7 +613,7 @@ export function HomePage({ onSearchFlights, onNavigate }: HomePageProps = {}) {
                 <button
                   onClick={handleSearch}
                   disabled={!hotelDestination}
-                  className="w-full rounded-xl bg-gradient-to-r from-primary-600 to-secondary-600 py-4 text-lg font-semibold text-white shadow-lg transition-all hover:shadow-xl hover:scale-[1.02] active:scale-[0.98] flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
+                  className="w-full rounded-xl bg-gradient-to-r from-blue-600 to-purple-600 py-4 text-lg font-semibold text-white shadow-lg transition-all hover:shadow-xl hover:scale-[1.02] active:scale-[0.98] flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
                 >
                   <Hotel className="h-5 w-5" />
                   Search Hotels
@@ -613,7 +638,7 @@ export function HomePage({ onSearchFlights, onNavigate }: HomePageProps = {}) {
                         value={holidayDestination}
                         onChange={(e) => setHolidayDestination(e.target.value)}
                         placeholder="Beach, Mountains, Adventure..."
-                        className="w-full rounded-lg border border-gray-300 bg-white py-3 pl-10 pr-4 text-sm font-medium text-gray-900 focus:border-primary-500 focus:outline-none focus:ring-2 focus:ring-primary-500/20"
+                        className="w-full rounded-lg border border-gray-300 bg-white py-3 pl-10 pr-4 text-sm font-medium text-gray-900 focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500/20"
                       />
                     </div>
                   </div>
@@ -627,7 +652,7 @@ export function HomePage({ onSearchFlights, onNavigate }: HomePageProps = {}) {
                       <select
                         value={holidayBudget}
                         onChange={(e) => setHolidayBudget(e.target.value)}
-                        className="w-full appearance-none rounded-lg border border-gray-300 bg-white py-3 pl-4 pr-10 text-sm font-medium text-gray-900 focus:border-primary-500 focus:outline-none focus:ring-2 focus:ring-primary-500/20"
+                        className="w-full appearance-none rounded-lg border border-gray-300 bg-white py-3 pl-4 pr-10 text-sm font-medium text-gray-900 focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500/20"
                       >
                         <option value="budget">
                           Budget (₹10,000 - ₹25,000)
@@ -656,7 +681,7 @@ export function HomePage({ onSearchFlights, onNavigate }: HomePageProps = {}) {
                         value={holidayStartDate}
                         onChange={(e) => setHolidayStartDate(e.target.value)}
                         min={format(new Date(), "yyyy-MM-dd")}
-                        className="w-full rounded-lg border border-gray-300 bg-white py-3 pl-10 pr-4 text-sm font-medium text-gray-900 focus:border-primary-500 focus:outline-none focus:ring-2 focus:ring-primary-500/20"
+                        className="w-full rounded-lg border border-gray-300 bg-white py-3 pl-10 pr-4 text-sm font-medium text-gray-900 focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500/20"
                       />
                     </div>
                   </div>
@@ -673,7 +698,7 @@ export function HomePage({ onSearchFlights, onNavigate }: HomePageProps = {}) {
                         value={holidayEndDate}
                         onChange={(e) => setHolidayEndDate(e.target.value)}
                         min={holidayStartDate}
-                        className="w-full rounded-lg border border-gray-300 bg-white py-3 pl-10 pr-4 text-sm font-medium text-gray-900 focus:border-primary-500 focus:outline-none focus:ring-2 focus:ring-primary-500/20"
+                        className="w-full rounded-lg border border-gray-300 bg-white py-3 pl-10 pr-4 text-sm font-medium text-gray-900 focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500/20"
                       />
                     </div>
                   </div>
@@ -690,7 +715,7 @@ export function HomePage({ onSearchFlights, onNavigate }: HomePageProps = {}) {
                         onChange={(e) =>
                           setHolidayTravelers(Number(e.target.value))
                         }
-                        className="w-full appearance-none rounded-lg border border-gray-300 bg-white py-3 pl-10 pr-10 text-sm font-medium text-gray-900 focus:border-primary-500 focus:outline-none focus:ring-2 focus:ring-primary-500/20"
+                        className="w-full appearance-none rounded-lg border border-gray-300 bg-white py-3 pl-10 pr-10 text-sm font-medium text-gray-900 focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500/20"
                       >
                         {[1, 2, 3, 4, 5, 6, 7, 8].map((num) => (
                           <option key={num} value={num}>
@@ -706,7 +731,7 @@ export function HomePage({ onSearchFlights, onNavigate }: HomePageProps = {}) {
                 {/* Search Button */}
                 <button
                   onClick={handleSearch}
-                  className="w-full rounded-xl bg-gradient-to-r from-primary-600 to-secondary-600 py-4 text-lg font-semibold text-white shadow-lg transition-all hover:shadow-xl hover:scale-[1.02] active:scale-[0.98] flex items-center justify-center gap-2"
+                  className="w-full rounded-xl bg-gradient-to-r from-blue-600 to-purple-600 py-4 text-lg font-semibold text-white shadow-lg transition-all hover:shadow-xl hover:scale-[1.02] active:scale-[0.98] flex items-center justify-center gap-2"
                 >
                   <Palmtree className="h-5 w-5" />
                   Search Holiday Packages
@@ -729,7 +754,7 @@ export function HomePage({ onSearchFlights, onNavigate }: HomePageProps = {}) {
                       <select
                         value={visaCountry}
                         onChange={(e) => setVisaCountry(e.target.value)}
-                        className="w-full appearance-none rounded-lg border border-gray-300 bg-white py-3 pl-10 pr-10 text-sm font-medium text-gray-900 focus:border-primary-500 focus:outline-none focus:ring-2 focus:ring-primary-500/20"
+                        className="w-full appearance-none rounded-lg border border-gray-300 bg-white py-3 pl-10 pr-10 text-sm font-medium text-gray-900 focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500/20"
                       >
                         <option value="">Select Country</option>
                         <option value="usa">United States</option>
@@ -755,7 +780,7 @@ export function HomePage({ onSearchFlights, onNavigate }: HomePageProps = {}) {
                       <select
                         value={visaType}
                         onChange={(e) => setVisaType(e.target.value)}
-                        className="w-full appearance-none rounded-lg border border-gray-300 bg-white py-3 pl-10 pr-10 text-sm font-medium text-gray-900 focus:border-primary-500 focus:outline-none focus:ring-2 focus:ring-primary-500/20"
+                        className="w-full appearance-none rounded-lg border border-gray-300 bg-white py-3 pl-10 pr-10 text-sm font-medium text-gray-900 focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500/20"
                       >
                         <option value="tourist">Tourist Visa</option>
                         <option value="business">Business Visa</option>
@@ -785,7 +810,7 @@ export function HomePage({ onSearchFlights, onNavigate }: HomePageProps = {}) {
                           new Date(Date.now() + 7 * 24 * 60 * 60 * 1000),
                           "yyyy-MM-dd"
                         )}
-                        className="w-full rounded-lg border border-gray-300 bg-white py-3 pl-10 pr-4 text-sm font-medium text-gray-900 focus:border-primary-500 focus:outline-none focus:ring-2 focus:ring-primary-500/20"
+                        className="w-full rounded-lg border border-gray-300 bg-white py-3 pl-10 pr-4 text-sm font-medium text-gray-900 focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500/20"
                       />
                     </div>
                   </div>
@@ -802,7 +827,7 @@ export function HomePage({ onSearchFlights, onNavigate }: HomePageProps = {}) {
                         onChange={(e) =>
                           setVisaApplicants(Number(e.target.value))
                         }
-                        className="w-full appearance-none rounded-lg border border-gray-300 bg-white py-3 pl-10 pr-10 text-sm font-medium text-gray-900 focus:border-primary-500 focus:outline-none focus:ring-2 focus:ring-primary-500/20"
+                        className="w-full appearance-none rounded-lg border border-gray-300 bg-white py-3 pl-10 pr-10 text-sm font-medium text-gray-900 focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500/20"
                       >
                         {[1, 2, 3, 4, 5, 6].map((num) => (
                           <option key={num} value={num}>
@@ -819,7 +844,7 @@ export function HomePage({ onSearchFlights, onNavigate }: HomePageProps = {}) {
                 <button
                   onClick={handleSearch}
                   disabled={!visaCountry}
-                  className="w-full rounded-xl bg-gradient-to-r from-primary-600 to-secondary-600 py-4 text-lg font-semibold text-white shadow-lg transition-all hover:shadow-xl hover:scale-[1.02] active:scale-[0.98] flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
+                  className="w-full rounded-xl bg-gradient-to-r from-blue-600 to-purple-600 py-4 text-lg font-semibold text-white shadow-lg transition-all hover:shadow-xl hover:scale-[1.02] active:scale-[0.98] flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
                 >
                   <FileText className="h-5 w-5" />
                   Check Visa Requirements
@@ -871,10 +896,10 @@ export function HomePage({ onSearchFlights, onNavigate }: HomePageProps = {}) {
                 ))}
               </div>
               <p className="text-gray-700 mb-6 leading-relaxed">
-                "Our Bali trip organized by Suvidha Escapes was absolutely
+                &ldquo;Our Bali trip organized by Suvidha Escapes was absolutely
                 magical! Every detail was perfectly planned, from the stunning
                 hotels to the incredible experiences. The AI trip planner made
-                it so easy to customize our itinerary."
+                it so easy to customize our itinerary.&rdquo;
               </p>
               <div className="flex items-center gap-4">
                 <img
@@ -906,10 +931,10 @@ export function HomePage({ onSearchFlights, onNavigate }: HomePageProps = {}) {
                 ))}
               </div>
               <p className="text-gray-700 mb-6 leading-relaxed">
-                "Best travel booking experience ever! The hotel recommendations
-                were spot-on, and the customer support was available 24/7. We
-                saved so much time and money. Highly recommend for family
-                vacations!"
+                &ldquo;Best travel booking experience ever! The hotel
+                recommendations were spot-on, and the customer support was
+                available 24/7. We saved so much time and money. Highly
+                recommend for family vacations!&rdquo;
               </p>
               <div className="flex items-center gap-4">
                 <img
@@ -941,10 +966,10 @@ export function HomePage({ onSearchFlights, onNavigate }: HomePageProps = {}) {
                 ))}
               </div>
               <p className="text-gray-700 mb-6 leading-relaxed">
-                "The Maldives package was a dream come true! Crystal clear
+                &ldquo;The Maldives package was a dream come true! Crystal clear
                 waters, luxury resort, and amazing activities. Suvidha Escapes
                 made our honeymoon unforgettable. Thank you for the seamless
-                experience!"
+                experience!&rdquo;
               </p>
               <div className="flex items-center gap-4">
                 <img
@@ -978,10 +1003,10 @@ export function HomePage({ onSearchFlights, onNavigate }: HomePageProps = {}) {
                 ))}
               </div>
               <p className="text-gray-700 mb-6 leading-relaxed">
-                "Incredible service from start to finish! The flight bookings
-                were hassle-free, hotels were top-notch, and the visa assistance
-                was super helpful. Will definitely book again for our next
-                international trip."
+                &ldquo;Incredible service from start to finish! The flight
+                bookings were hassle-free, hotels were top-notch, and the visa
+                assistance was super helpful. Will definitely book again for our
+                next international trip.&rdquo;
               </p>
               <div className="flex items-center gap-4">
                 <img
@@ -1013,10 +1038,10 @@ export function HomePage({ onSearchFlights, onNavigate }: HomePageProps = {}) {
                 ))}
               </div>
               <p className="text-gray-700 mb-6 leading-relaxed">
-                "As a solo traveler, I was nervous about planning everything
-                myself. Suvidha Escapes made it effortless! Great hotels, safe
-                locations, and the AI planner understood exactly what I wanted.
-                Five stars!"
+                &ldquo;As a solo traveler, I was nervous about planning
+                everything myself. Suvidha Escapes made it effortless! Great
+                hotels, safe locations, and the AI planner understood exactly
+                what I wanted. Five stars!&rdquo;
               </p>
               <div className="flex items-center gap-4">
                 <img
@@ -1050,10 +1075,10 @@ export function HomePage({ onSearchFlights, onNavigate }: HomePageProps = {}) {
                 ))}
               </div>
               <p className="text-gray-700 mb-6 leading-relaxed">
-                "Outstanding experience! The Kerala backwaters trip was peaceful
-                and rejuvenating. Everything from houseboat to Ayurveda spa was
-                perfectly arranged. Suvidha Escapes exceeded all our
-                expectations!"
+                &ldquo;Outstanding experience! The Kerala backwaters trip was
+                peaceful and rejuvenating. Everything from houseboat to Ayurveda
+                spa was perfectly arranged. Suvidha Escapes exceeded all our
+                expectations!&rdquo;
               </p>
               <div className="flex items-center gap-4">
                 <img
@@ -1188,7 +1213,7 @@ interface FeaturedPackagesSectionProps {
 }
 
 function FeaturedPackagesSection({ onNavigate }: FeaturedPackagesSectionProps) {
-  const [isPaused, setIsPaused] = useState(false);
+  const [isPaused] = useState(false);
   const scrollRef = useRef<HTMLDivElement>(null);
 
   // Featured packages data
@@ -1272,9 +1297,6 @@ function FeaturedPackagesSection({ onNavigate }: FeaturedPackagesSectionProps) {
       highlights: ["Pangong Lake", "Nubra Valley", "Khardung La"],
     },
   ];
-
-  // Double the packages for infinite scroll effect
-  const allPackages = [...featuredPackages, ...featuredPackages];
 
   useEffect(() => {
     if (!scrollRef.current || isPaused) return;

@@ -19,9 +19,10 @@ interface SearchParams {
 
 interface FlightsPageProps {
   onBookFlight?: (flight: FlightOffer) => void;
+  onBack?: () => void;
 }
 
-export function FlightsPage({ onBookFlight }: FlightsPageProps = {}) {
+export function FlightsPage({ onBookFlight, onBack }: FlightsPageProps = {}) {
   const [filters, setFilters] = useState<FilterState>({
     priceRange: [0, 50000],
     stops: [],
@@ -165,7 +166,7 @@ export function FlightsPage({ onBookFlight }: FlightsPageProps = {}) {
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-4">
               <button
-                onClick={() => window.history.back()}
+                onClick={() => (onBack ? onBack() : window.history.back())}
                 className="rounded-lg p-2 text-gray-600 transition-colors hover:bg-gray-100"
               >
                 <ArrowLeft className="h-5 w-5" />
@@ -275,7 +276,7 @@ export function FlightsPage({ onBookFlight }: FlightsPageProps = {}) {
                 </p>
                 <button
                   onClick={handleClearFilters}
-                  className="rounded-lg bg-primary-600 px-6 py-2 text-sm font-semibold text-white transition-colors hover:bg-primary-700"
+                  className="rounded-lg bg-blue-600 px-6 py-2 text-sm font-semibold text-white transition-colors hover:bg-blue-700"
                 >
                   Clear All Filters
                 </button>
@@ -317,7 +318,7 @@ export function FlightsPage({ onBookFlight }: FlightsPageProps = {}) {
             <div className="sticky bottom-0 border-t border-gray-200 bg-white p-4">
               <button
                 onClick={() => setShowFilters(false)}
-                className="w-full rounded-lg bg-primary-600 px-6 py-3 text-sm font-semibold text-white transition-colors hover:bg-primary-700"
+                className="w-full rounded-lg bg-blue-600 px-6 py-3 text-sm font-semibold text-white transition-colors hover:bg-blue-700"
               >
                 Show {sortedFlights.length} Result
                 {sortedFlights.length !== 1 ? "s" : ""}

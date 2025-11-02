@@ -4,7 +4,6 @@ import {
   X,
   ChevronDown,
   Globe,
-  User,
   Plane,
   Hotel,
   Palmtree,
@@ -14,6 +13,7 @@ import {
 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { AITripPlanner } from "./AITripPlanner";
+import { SignInModal } from "./SignInModal";
 
 interface NavItem {
   label: string;
@@ -45,6 +45,7 @@ export function Header({ onNavigate }: HeaderProps = {}) {
   const [currencyDropdownOpen, setCurrencyDropdownOpen] = useState(false);
   const [selectedCurrency, setSelectedCurrency] = useState("INR");
   const [aiPlannerOpen, setAiPlannerOpen] = useState(false);
+  const [signInOpen, setSignInOpen] = useState(false);
 
   const handleNavClick = (href: string, e: React.MouseEvent) => {
     if (onNavigate) {
@@ -165,7 +166,10 @@ export function Header({ onNavigate }: HeaderProps = {}) {
               </div>
 
               {/* Sign In Button */}
-              <button className="hidden md:inline-flex items-center gap-2 rounded-lg border-2 border-purple-600 bg-white px-4 py-2 text-sm font-semibold text-purple-700 transition-all hover:bg-purple-600 hover:text-white shadow-sm hover:shadow-md">
+              <button
+                onClick={() => setSignInOpen(true)}
+                className="hidden md:inline-flex items-center gap-2 rounded-lg border-2 border-purple-600 bg-white px-4 py-2 text-sm font-semibold text-purple-700 transition-all hover:bg-purple-600 hover:text-white shadow-sm hover:shadow-md"
+              >
                 <LogIn className="h-4 w-4" />
                 <span>Sign In</span>
               </button>
@@ -223,7 +227,13 @@ export function Header({ onNavigate }: HeaderProps = {}) {
                   </button>
 
                   <div className="border-t border-gray-200 pt-3 mt-3">
-                    <button className="flex w-full items-center justify-center gap-2 rounded-lg border-2 border-purple-600 bg-white px-4 py-2.5 text-base font-semibold text-purple-700 hover:bg-purple-600 hover:text-white transition-colors">
+                    <button
+                      onClick={() => {
+                        setSignInOpen(true);
+                        setMobileMenuOpen(false);
+                      }}
+                      className="flex w-full items-center justify-center gap-2 rounded-lg border-2 border-purple-600 bg-white px-4 py-2.5 text-base font-semibold text-purple-700 hover:bg-purple-600 hover:text-white transition-colors"
+                    >
                       <LogIn className="h-5 w-5" />
                       <span>Sign In</span>
                     </button>
@@ -240,6 +250,9 @@ export function Header({ onNavigate }: HeaderProps = {}) {
         isOpen={aiPlannerOpen}
         onClose={() => setAiPlannerOpen(false)}
       />
+
+      {/* Sign In Modal */}
+      <SignInModal isOpen={signInOpen} onClose={() => setSignInOpen(false)} />
     </>
   );
 }

@@ -14,6 +14,14 @@
      UI components with animations, state management, and complete user flows
   </div>
   <br />
+  
+  <!-- Demo Video -->
+  <div align="center">
+    <video src="https://github.com/user-attachments/assets/c01537b7-1504-4577-9fca-b1ddb93413b1" controls width="100%" style="max-width: 900px;">
+      Your browser does not support the video tag.
+    </video>
+  </div>
+  <br />
 </div>
 
 ## 📋 Table of Contents
@@ -157,16 +165,16 @@ suvidha-escapes-portal/
 
 ### **Core Pages** (8 components)
 
-| Component               | Description                         | Lines of Code |
-| ----------------------- | ----------------------------------- | ------------- |
-| `HomePage.tsx`          | Landing page with multi-tab search  | ~1,450        |
-| `FlightsPage.tsx`       | Flight search results with filters  | ~330          |
-| `HotelsPage.tsx`        | Hotel listings with grid/list views | ~650          |
-| `HolidaysPage.tsx`      | Holiday package browser             | ~710          |
-| `VisaPage.tsx`          | Visa requirements and applications  | ~420          |
-| `HotelDetailPage.tsx`   | Individual hotel details & booking  | ~580          |
-| `PackageDetailPage.tsx` | Package details with itinerary      | ~640          |
-| `VisaDetailPage.tsx`    | Visa application form               | ~390          |
+| Component               | Description                         |
+| ----------------------- | ----------------------------------- |
+| `HomePage.tsx`          | Landing page with multi-tab search  |
+| `FlightsPage.tsx`       | Flight search results with filters  |
+| `HotelsPage.tsx`        | Hotel listings with grid/list views |
+| `HolidaysPage.tsx`      | Holiday package browser             |
+| `VisaPage.tsx`          | Visa requirements and applications  |
+| `HotelDetailPage.tsx`   | Individual hotel details & booking  |
+| `PackageDetailPage.tsx` | Package details with itinerary      |
+| `VisaDetailPage.tsx`    | Visa application form               |
 
 ### **Booking Flows** (4 components)
 
@@ -217,8 +225,6 @@ suvidha-escapes-portal/
 | ---------- | -------------------------------------------- |
 | `types.ts` | TypeScript interfaces (15+ types)            |
 | `data.ts`  | Mock data (flights, hotels, packages, visas) |
-
-**Total:** 29 files • ~7,000+ lines of code
 
 ## 📊 Mock Data
 
@@ -383,17 +389,4 @@ Error: Red (#ef4444)
 ```bash
 npm run build
 npm run start
-```
-
-### Deploy to Vercel
-
-The easiest way to deploy this Next.js app:
-
-[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https://github.com/yourusername/suvidha-escapes-portal)
-
-Or manually:
-
-```bash
-npm install -g vercel
-vercel
 ```

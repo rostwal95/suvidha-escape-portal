@@ -3,23 +3,17 @@ import { motion, AnimatePresence } from "framer-motion";
 import {
   ArrowLeft,
   User,
-  Mail,
-  Phone,
-  MapPin,
   CreditCard,
   Check,
-  Calendar,
   Plane,
   Hotel as HotelIcon,
   Palmtree,
-  Users,
   IndianRupee,
   Shield,
   Clock,
   CheckCircle2,
   Sparkles,
   Download,
-  Share2,
   Home,
 } from "lucide-react";
 import { Button } from "./primitives/button";
@@ -39,7 +33,6 @@ interface UnifiedBookingFlowProps {
     passengers?: number;
   };
   onBack: () => void;
-  onComplete?: () => void;
 }
 
 interface GuestDetails {
@@ -58,7 +51,6 @@ export function UnifiedBookingFlow({
   item,
   metadata = {},
   onBack,
-  onComplete,
 }: UnifiedBookingFlowProps) {
   const [step, setStep] = useState<"details" | "payment" | "confirmation">(
     "details"
@@ -95,10 +87,13 @@ export function UnifiedBookingFlow({
       const rooms = metadata.rooms || 1;
       const nights =
         metadata.checkInDate && metadata.checkOutDate
-          ? Math.ceil(
-              (new Date(metadata.checkOutDate).getTime() -
-                new Date(metadata.checkInDate).getTime()) /
-                (1000 * 60 * 60 * 24)
+          ? Math.max(
+              1,
+              Math.ceil(
+                (new Date(metadata.checkOutDate).getTime() -
+                  new Date(metadata.checkInDate).getTime()) /
+                  (1000 * 60 * 60 * 24)
+              )
             )
           : 1;
       const basePrice = hotelPrice * nights * rooms;
@@ -164,7 +159,16 @@ export function UnifiedBookingFlow({
       return (item as Hotel).location;
     } else {
       const pkg = item as Package;
-      return `${pkg.duration.days} Days / ${pkg.duration.nights} Nights`;
+      // Handle both package and visa (visa doesn't have duration)
+      if (pkg.duration?.days && pkg.duration?.nights) {
+        return `${pkg.duration.days} Days / ${pkg.duration.nights} Nights`;
+      }
+      // For visa or packages without duration, check if it has a country property
+      const itemWithCountry = item as {
+        country?: string;
+        destination?: string;
+      };
+      return pkg.destination || itemWithCountry.country || "Travel Package";
     }
   };
 
@@ -250,7 +254,11 @@ export function UnifiedBookingFlow({
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
           {/* Main Content */}
-          <div className="lg:col-span-2">
+          <div
+            className={
+              step === "confirmation" ? "lg:col-span-3" : "lg:col-span-2"
+            }
+          >
             <AnimatePresence mode="wait">
               {step === "details" && (
                 <motion.div
@@ -466,7 +474,6 @@ export function UnifiedBookingFlow({
                     itemSubtitle={getItemSubtitle()}
                     guestDetails={guestDetails}
                     pricing={pricing}
-                    onComplete={onComplete}
                     onBack={onBack}
                   />
                 </motion.div>
@@ -640,7 +647,11 @@ function PaymentSection({
         ].map((method) => (
           <button
             key={method.id}
-            onClick={() => setPaymentMethod(method.id as any)}
+            onClick={() =>
+              setPaymentMethod(
+                method.id as "card" | "upi" | "netbanking" | "wallet"
+              )
+            }
             className={`w-full flex items-center gap-4 p-4 rounded-xl border-2 transition-all ${
               paymentMethod === method.id
                 ? "border-purple-600 bg-purple-50"
@@ -701,7 +712,6 @@ interface ConfirmationSectionProps {
   itemSubtitle: string;
   guestDetails: GuestDetails;
   pricing: { basePrice: number; taxes: number; total: number; label: string };
-  onComplete?: () => void;
   onBack: () => void;
 }
 
@@ -712,7 +722,6 @@ function ConfirmationSection({
   itemSubtitle,
   guestDetails,
   pricing,
-  onComplete,
   onBack,
 }: ConfirmationSectionProps) {
   const handleDownloadConfirmation = () => {

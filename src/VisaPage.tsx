@@ -14,7 +14,7 @@ import {
 } from "lucide-react";
 import { Input } from "./primitives/input";
 import { Button } from "./primitives/button";
-import { Badge } from "./primitives/badge";
+import { VisaDetailPage } from "./VisaDetailPage";
 import type { VisaRequirement } from "./types";
 
 // Mock visa data with real country images
@@ -142,7 +142,7 @@ interface VisaPageProps {
 }
 
 export function VisaPage({ onVisaSelect }: VisaPageProps) {
-  const [visas, setVisas] = useState(MOCK_VISAS);
+  const [visas] = useState(MOCK_VISAS);
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedVisa, setSelectedVisa] = useState<VisaRequirement | null>(
     null
@@ -156,8 +156,20 @@ export function VisaPage({ onVisaSelect }: VisaPageProps) {
 
   const handleApply = (visa: VisaRequirement) => {
     setSelectedVisa(visa);
-    onVisaSelect?.(visa);
   };
+
+  // Show detail page if a visa is selected
+  if (selectedVisa) {
+    return (
+      <VisaDetailPage
+        visa={selectedVisa}
+        onBack={() => setSelectedVisa(null)}
+        onStartApplication={(visa) => {
+          onVisaSelect?.(visa);
+        }}
+      />
+    );
+  }
 
   return (
     <div className="min-h-screen bg-gray-50">
@@ -310,8 +322,7 @@ function VisaCard({ visa, index, onApply }: VisaCardProps) {
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ delay: index * 0.08 }}
-      onClick={() => onApply(visa)}
-      className="bg-white rounded-2xl overflow-hidden border border-gray-200 hover:shadow-xl transition-all group cursor-pointer"
+      className="bg-white rounded-2xl overflow-hidden border border-gray-200 hover:shadow-xl transition-all group"
     >
       {/* Country Image */}
       <div className="relative h-48 overflow-hidden">
@@ -404,10 +415,12 @@ function VisaCard({ visa, index, onApply }: VisaCardProps) {
           </div>
           <Button
             onClick={(e) => {
+              e.preventDefault();
               e.stopPropagation();
               onApply(visa);
             }}
-            className="gap-2"
+            className="gap-2 cursor-pointer hover:shadow-lg"
+            type="button"
           >
             View Details
             <ArrowRight className="h-4 w-4" />

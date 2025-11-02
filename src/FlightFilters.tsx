@@ -1,6 +1,5 @@
 import React, { useState } from "react";
-import { X, SlidersHorizontal } from "lucide-react";
-import { motion, AnimatePresence } from "framer-motion";
+import { X } from "lucide-react";
 import type { FilterState } from "./types";
 
 export interface FlightFiltersProps {
@@ -76,7 +75,7 @@ export function FlightFilters({
           {hasActiveFilters && (
             <button
               onClick={onClearAll}
-              className="text-sm font-medium text-primary-600 hover:text-primary-700"
+              className="text-sm font-medium text-blue-600 hover:text-blue-700"
             >
               Clear all
             </button>
@@ -137,7 +136,7 @@ export function FlightFilters({
                   type="checkbox"
                   checked={localFilters.stops.includes(stop)}
                   onChange={() => toggleArrayFilter("stops", stop)}
-                  className="h-4 w-4 rounded border-gray-300 text-primary-600 focus:ring-primary-500"
+                  className="h-4 w-4 rounded border-gray-300 text-blue-600 focus:ring-blue-500"
                 />
                 <span className="text-sm text-gray-700">{stop}</span>
               </label>
@@ -158,7 +157,7 @@ export function FlightFilters({
                   type="checkbox"
                   checked={localFilters.airlines.includes(airline)}
                   onChange={() => toggleArrayFilter("airlines", airline)}
-                  className="h-4 w-4 rounded border-gray-300 text-primary-600 focus:ring-primary-500"
+                  className="h-4 w-4 rounded border-gray-300 text-blue-600 focus:ring-blue-500"
                 />
                 <span className="text-sm text-gray-700">{airline}</span>
               </label>
@@ -178,7 +177,7 @@ export function FlightFilters({
                 onClick={() => toggleArrayFilter("departureTime", slot.id)}
                 className={`rounded-lg border p-2 text-left transition-colors ${
                   localFilters.departureTime.includes(slot.id)
-                    ? "border-primary-600 bg-primary-50 text-primary-700"
+                    ? "border-blue-600 bg-blue-50 text-blue-700"
                     : "border-gray-300 hover:border-gray-400"
                 }`}
               >
@@ -201,7 +200,7 @@ export function FlightFilters({
                 onClick={() => toggleArrayFilter("arrivalTime", slot.id)}
                 className={`rounded-lg border p-2 text-left transition-colors ${
                   localFilters.arrivalTime.includes(slot.id)
-                    ? "border-primary-600 bg-primary-50 text-primary-700"
+                    ? "border-blue-600 bg-blue-50 text-blue-700"
                     : "border-gray-300 hover:border-gray-400"
                 }`}
               >
@@ -253,7 +252,7 @@ export function FlightFilters({
                     type="checkbox"
                     checked={localFilters.cabinClass.includes(cabin)}
                     onChange={() => toggleArrayFilter("cabinClass", cabin)}
-                    className="h-4 w-4 rounded border-gray-300 text-primary-600 focus:ring-primary-500"
+                    className="h-4 w-4 rounded border-gray-300 text-blue-600 focus:ring-blue-500"
                   />
                   <span className="text-sm text-gray-700">{cabin}</span>
                 </label>

@@ -440,7 +440,10 @@ const THEME_FILTERS = [
   "Family",
 ];
 
-const inclusionIcons: Record<string, any> = {
+const inclusionIcons: Record<
+  string,
+  React.ComponentType<{ className?: string }>
+> = {
   Flights: Plane,
   Hotels: HotelIcon,
   Hotel: HotelIcon,
@@ -455,7 +458,7 @@ interface HolidaysPageProps {
 }
 
 export function HolidaysPage({ onPackageSelect }: HolidaysPageProps) {
-  const [packages, setPackages] = useState(MOCK_PACKAGES);
+  const [packages] = useState(MOCK_PACKAGES);
   const [activeTheme, setActiveTheme] = useState("All");
   const [selectedPackage, setSelectedPackage] = useState<Package | null>(null);
 
@@ -471,7 +474,7 @@ export function HolidaysPage({ onPackageSelect }: HolidaysPageProps) {
       <PackageDetailPage
         packageData={selectedPackage}
         onBack={() => setSelectedPackage(null)}
-        onBook={(packageId: string) => {
+        onBook={() => {
           if (onPackageSelect) {
             onPackageSelect(selectedPackage, { guests: 2 }); // Default 2 guests, can be made dynamic
           }
@@ -704,6 +707,17 @@ function PackageCard({ package: pkg, index, onSelect }: PackageCardProps) {
             </ul>
           </div>
         )}
+
+        {/* Book Now Button */}
+        <button
+          onClick={(e) => {
+            e.stopPropagation();
+            onSelect?.();
+          }}
+          className="w-full mt-4 bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white font-semibold py-3 rounded-xl transition-all shadow-md hover:shadow-lg"
+        >
+          Book Now
+        </button>
       </div>
     </motion.div>
   );
